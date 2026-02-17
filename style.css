@@ -66,7 +66,9 @@ body {
 }
 
 .app-header {
-    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: var(--spacing-lg);
     padding: var(--spacing-md) 0;
     border-bottom: 1px solid var(--border-color);
@@ -76,7 +78,12 @@ body {
     font-size: var(--font-size-xl);
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 0;
+}
+
+#logout-btn {
+    width: auto;
+    padding: var(--spacing-sm) var(--spacing-lg);
 }
 
 .subtitle {
@@ -605,4 +612,52 @@ code {
     .app-container {
         padding: var(--spacing-sm);
     }
+}
+
+/* ========================================
+   Modal Dialog
+   ======================================== */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+}
+
+.modal-content {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-content h2 {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.modal-content p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-size: var(--font-size-base);
+}
+
+.modal-content .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.modal-content .btn {
+    margin-top: var(--spacing-md);
 }

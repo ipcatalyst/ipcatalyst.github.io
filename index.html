@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demand Prototype - Portfolio Analysis</title>
+    <title>Enginuity Portfolio Analysis</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -15,52 +15,17 @@
     <div class="app-container">
         <!-- Header -->
         <header class="app-header">
-            <h1>Demand Prototype</h1>
+            <h1>Enginuity Portfolio Analysis</h1>
+            <button class="btn btn-secondary logout-btn" id="logout-btn">Logout</button>
         </header>
 
         <!-- Main Content -->
         <main class="main-content">
             <!-- Left Panel: Configuration & Portfolio -->
             <section class="panel left-panel">
-                <h2>Configuration & Portfolio</h2>
+                <h2>Portfolio</h2>
 
-                <!-- Endpoint Configuration -->
-                <div class="card">
-                    <h3>Endpoint Configuration</h3>
-                    <div class="form-group">
-                        <label for="endpoint-select">Environment</label>
-                        <select id="endpoint-select">
-                            <option value="azure">Azure (Production)</option>
-                            <option value="local">Local (Development)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="endpoint-key">API Key</label>
-                        <input type="password" id="endpoint-key" placeholder="Enter API key">
-                    </div>
-                    <div class="endpoint-info">
-                        <small id="current-endpoint">Endpoint: Loading...</small>
-                    </div>
-                </div>
 
-                <!-- Organization -->
-                <div class="card">
-                    <h3>Organization</h3>
-                    <div id="org-setup">
-                        <div class="form-group">
-                            <label for="manual-org-uuid">Enter Org UUID</label>
-                            <input type="text" id="manual-org-uuid" placeholder="Enter org UUID">
-                            <button class="btn btn-primary" id="use-org-btn" style="margin-top: 0.5rem;">Use This
-                                Org</button>
-                        </div>
-                    </div>
-                    <div id="org-display" class="hidden">
-                        <div class="info-box">
-                            <label>Organization ID:</label>
-                            <code id="org-uuid">-</code>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Sources -->
                 <div class="card">
@@ -179,6 +144,26 @@
 
         <!-- Toast Notifications -->
         <div id="toast-container"></div>
+
+        <!-- Initial Configuration Modal -->
+        <div id="config-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Welcome to Enginuity</h2>
+                <p>Please configure your settings to get started.</p>
+
+                <form id="config-form">
+                    <div class="form-group">
+                        <label for="modal-org-uuid">Organization ID</label>
+                        <input type="text" id="modal-org-uuid" placeholder="Enter your organization ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-api-key">API Key</label>
+                        <input type="password" id="modal-api-key" placeholder="Enter your API key" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>

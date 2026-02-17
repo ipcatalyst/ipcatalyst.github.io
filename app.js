@@ -80,10 +80,7 @@ function hideLoading() {
     document.getElementById('loading-overlay').classList.add('hidden');
 }
 
-function updateEndpointDisplay() {
-    const display = document.getElementById('current-endpoint');
-    display.textContent = `Endpoint: ${getBaseURL()}`;
-}
+
 
 // ========================================
 // API Functions
@@ -659,34 +656,64 @@ function displayReport(data) {
 // ========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize
-    updateEndpointDisplay();
-    document.getElementById('endpoint-key').value = STATE.apiKey;
+    // Check for saved configuration
+    const savedApiKey = localStorage.getItem('apiKey');
+    const savedOrgUuid = localStorage.getItem('orgUuid');
+    const savedEndpoint = localStorage.getItem('endpoint');
+    const hasVisited = localStorage.getItem('hasVisited');
 
-    // Endpoint Configuration
-    document.getElementById('endpoint-select').addEventListener('change', (e) => {
-        STATE.currentEndpoint = e.target.value;
-        updateEndpointDisplay();
-        showToast(`Switched to ${e.target.value} endpoint`, 'info');
+    // If user has saved credentials, load them
+    if (savedApiKey) {
+        STATE.apiKey = savedApiKey;
+    }
+
+    if (savedOrgUuid) {
+        STATE.orgUuid = savedOrgUuid;
+    }
+
+    if (savedEndpoint) {
+        STATE.currentEndpoint = savedEndpoint;
+    }
+
+    // Show modal on first visit
+    if (!hasVisited) {
+        document.getElementById('config-modal').classList.remove('hidden');
+    }
+
+    // Handle modal configuration form
+    document.getElementById('config-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const apiKey = document.getElementById('modal-api-key').value;
+        const orgUuid = document.getElementById('modal-org-uuid').value;
+
+        // Save to localStorage (always use Azure as default)
+        localStorage.setItem('endpoint', 'azure');
+        localStorage.setItem('apiKey', apiKey);
+        localStorage.setItem('orgUuid', orgUuid);
+        localStorage.setItem('hasVisited', 'true');
+
+        // Update STATE
+        STATE.currentEndpoint = 'azure';
+        STATE.apiKey = apiKey;
+        STATE.orgUuid = orgUuid;
+
+        // Hide modal
+        document.getElementById('config-modal').classList.add('hidden');
+
+        showToast('Configuration saved successfully!', 'success');
     });
 
-    document.getElementById('endpoint-key').addEventListener('input', (e) => {
-        STATE.apiKey = e.target.value;
+    // Handle logout button
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        // Clear all localStorage
+        localStorage.clear();
+
+        // Reload the page to show login modal again
+        location.reload();
     });
 
-    // Organization
-    document.getElementById('use-org-btn').addEventListener('click', () => {
-        const manualUuid = document.getElementById('manual-org-uuid').value.trim();
-        if (manualUuid) {
-            STATE.orgUuid = manualUuid;
-            document.getElementById('org-uuid').textContent = STATE.orgUuid;
-            document.getElementById('org-display').classList.remove('hidden');
-            document.getElementById('org-setup').classList.add('hidden');
-            showToast('Using provided organization UUID', 'success');
-        } else {
-            showToast('Please enter a valid organization UUID', 'error');
-        }
-    });
+
 
     // Sources
     document.getElementById('fetch-sources-btn').addEventListener('click', getSources);
