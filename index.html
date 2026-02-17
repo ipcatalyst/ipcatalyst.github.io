@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demand Prototype - Portfolio Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>Demand Prototype</h1>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel: Configuration & Portfolio -->
+            <section class="panel left-panel">
+                <h2>Configuration & Portfolio</h2>
+
+                <!-- Endpoint Configuration -->
+                <div class="card">
+                    <h3>Endpoint Configuration</h3>
+                    <div class="form-group">
+                        <label for="endpoint-select">Environment</label>
+                        <select id="endpoint-select">
+                            <option value="azure">Azure (Production)</option>
+                            <option value="local">Local (Development)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="endpoint-key">API Key</label>
+                        <input type="password" id="endpoint-key" placeholder="Enter API key">
+                    </div>
+                    <div class="endpoint-info">
+                        <small id="current-endpoint">Endpoint: Loading...</small>
+                    </div>
+                </div>
+
+                <!-- Organization -->
+                <div class="card">
+                    <h3>Organization</h3>
+                    <div id="org-setup">
+                        <div class="form-group">
+                            <label for="manual-org-uuid">Enter Org UUID</label>
+                            <input type="text" id="manual-org-uuid" placeholder="Enter org UUID">
+                            <button class="btn btn-primary" id="use-org-btn" style="margin-top: 0.5rem;">Use This
+                                Org</button>
+                        </div>
+                    </div>
+                    <div id="org-display" class="hidden">
+                        <div class="info-box">
+                            <label>Organization ID:</label>
+                            <code id="org-uuid">-</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sources -->
+                <div class="card">
+                    <h3>Data Sources</h3>
+                    <button class="btn btn-secondary" id="fetch-sources-btn">Fetch Sources</button>
+                    <div id="sources-list" class="sources-container"></div>
+                </div>
+
+                <!-- Portfolio -->
+                <div class="card">
+                    <h3>Portfolio Management</h3>
+                    <div id="portfolio-create">
+                        <button class="btn btn-primary" id="create-portfolio-btn">Create New Portfolio</button>
+                        <div class="form-group" style="margin-top: 1rem;">
+                            <label for="manual-portfolio-uuid">Or Enter Existing Portfolio UUID</label>
+                            <input type="text" id="manual-portfolio-uuid" placeholder="Enter portfolio UUID">
+                            <button class="btn btn-secondary" id="use-portfolio-btn" style="margin-top: 0.5rem;">Use
+                                This Portfolio</button>
+                        </div>
+                    </div>
+                    <div id="portfolio-display" class="hidden">
+                        <div class="info-box">
+                            <label>Portfolio ID:</label>
+                            <code id="portfolio-uuid">-</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Records -->
+                <div class="card">
+                    <h3>Add Records</h3>
+                    <form id="add-record-form">
+                        <div class="form-group">
+                            <label for="record-title">Title</label>
+                            <input type="text" id="record-title" placeholder="Enter record title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="record-abstract">Abstract</label>
+                            <textarea id="record-abstract" placeholder="Enter record abstract" rows="4"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Record</button>
+                    </form>
+                </div>
+
+                <!-- View Portfolio Records -->
+                <div class="card">
+                    <h3>Portfolio Records</h3>
+                    <button class="btn btn-secondary" id="view-records-btn">View Records</button>
+                    <div id="records-list" class="records-container"></div>
+                </div>
+            </section>
+
+            <!-- Middle Panel: Analysis Results -->
+            <section class="panel middle-panel">
+                <h2>Analysis Results</h2>
+
+                <!-- Trigger Analysis -->
+                <div class="card">
+                    <h3>Run Analysis</h3>
+                    <button class="btn btn-primary btn-large" id="analyze-btn">Analyze Portfolio</button>
+                    <div id="analysis-status" class="status-message hidden"></div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="manual-analysis-uuid">Or Enter Existing Analysis UUID</label>
+                        <input type="text" id="manual-analysis-uuid" placeholder="Enter analysis UUID">
+                        <button class="btn btn-secondary" id="use-analysis-btn" style="margin-top: 0.5rem;">Use This
+                            Analysis</button>
+                    </div>
+                </div>
+
+                <!-- Scores Display -->
+                <div class="card">
+                    <h3>Scores</h3>
+                    <button class="btn btn-secondary" id="fetch-scores-btn">Fetch Scores</button>
+                    <div id="scores-container" class="scores-display"></div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Reports -->
+            <section class="panel right-panel">
+                <h2>Reports</h2>
+
+                <!-- Report Types -->
+                <div class="card">
+                    <h3>Report Type</h3>
+                    <button class="btn btn-secondary" id="fetch-report-types-btn">Fetch Report Types</button>
+                    <div id="report-types-list" class="report-types-container"></div>
+                </div>
+
+                <!-- Generate Report -->
+                <div class="card">
+                    <h3>Generate Report</h3>
+                    <button class="btn btn-primary btn-large" id="generate-report-btn">Generate Report</button>
+                    <div id="report-generation-status" class="status-message hidden"></div>
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="manual-report-uuid">Or Enter Existing Report UUID</label>
+                        <input type="text" id="manual-report-uuid" placeholder="Enter report UUID">
+                        <button class="btn btn-secondary" id="use-report-btn" style="margin-top: 0.5rem;">Use This
+                            Report</button>
+                    </div>
+                </div>
+
+                <!-- Fetch & Display Report -->
+                <div class="card">
+                    <h3>View Report</h3>
+                    <button class="btn btn-secondary" id="fetch-report-btn">Fetch Report</button>
+                    <div id="report-display" class="report-container"></div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="hidden">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
