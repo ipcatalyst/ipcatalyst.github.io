@@ -4,7 +4,7 @@
 
 const CONFIG = {
     endpoints: {
-        azure: 'https://functestapp4608.azurewebsites.net/api',
+        azure: 'https://enginuityai-api.azure-api.net/api/v0',
         local: 'http://localhost:7071/api'
     },
     defaultKey: ''
@@ -32,7 +32,7 @@ function getBaseURL() {
 function getHeaders() {
     return {
         'Content-Type': 'application/json',
-        'x-functions-key': STATE.apiKey
+        'Ocp-Apim-Subscription-Key': STATE.apiKey
     };
 }
 
