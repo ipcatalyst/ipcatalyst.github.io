@@ -86,7 +86,33 @@
                 <!-- Trigger Analysis -->
                 <div class="card">
                     <h3>Run Analysis</h3>
-                    <button class="btn btn-primary btn-large" id="analyze-btn">Analyze Portfolio</button>
+
+                    <div class="analysis-options">
+                        <div class="form-group">
+                            <label for="analysis-top-k">Top K Results</label>
+                            <input type="number" id="analysis-top-k" min="1" max="100" value="10">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="analysis-weights">Weights <span class="label-hint">(comma-separated, e.g.
+                                    0.5,0.3,0.2)</span></label>
+                            <input type="text" id="analysis-weights" placeholder="Leave blank for default">
+                        </div>
+
+                        <div class="analysis-toggles">
+                            <div class="toggle-item">
+                                <input type="checkbox" id="analysis-only-open">
+                                <label for="analysis-only-open" class="toggle-label">Only Open Grants</label>
+                            </div>
+                            <div class="toggle-item">
+                                <input type="checkbox" id="analysis-hybrid-search">
+                                <label for="analysis-hybrid-search" class="toggle-label">Hybrid Search</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-large" id="analyze-btn" style="margin-top: 0.75rem;">Analyze
+                        Portfolio</button>
                     <div id="analysis-status" class="status-message hidden"></div>
                     <div class="form-group" style="margin-top: 1rem;">
                         <label for="manual-analysis-uuid">Or Enter Existing Analysis UUID</label>

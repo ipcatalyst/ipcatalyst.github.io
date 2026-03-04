@@ -591,6 +591,56 @@ code {
 }
 
 /* ========================================
+   Analysis Options Controls
+   ======================================== */
+
+.analysis-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.analysis-options .form-group {
+    margin-bottom: 0;
+}
+
+.analysis-toggles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
+}
+
+.toggle-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+.toggle-item input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.toggle-label {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.label-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* ========================================
    Responsive Design
    ======================================== */
 

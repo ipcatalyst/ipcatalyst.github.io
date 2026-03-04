@@ -222,6 +222,15 @@ async function analyzePortfolio() {
         return;
     }
 
+    // Read analysis option controls
+    const topK = parseInt(document.getElementById('analysis-top-k').value, 10) || 10;
+    const weightsRaw = document.getElementById('analysis-weights').value.trim();
+    const weights = weightsRaw
+        ? weightsRaw.split(',').map(w => parseFloat(w.trim())).filter(w => !isNaN(w))
+        : null;
+    const onlyOpen = document.getElementById('analysis-only-open').checked;
+    const useHybridSearch = document.getElementById('analysis-hybrid-search').checked;
+
     showLoading();
     try {
         const data = await apiRequest('analyze', {
@@ -229,7 +238,11 @@ async function analyzePortfolio() {
             body: JSON.stringify({
                 org_uuid: STATE.orgUuid,
                 portfolio_uuid: STATE.portfolioUuid,
-                sources: STATE.selectedSources
+                sources: STATE.selectedSources,
+                top_k: topK,
+                weights: weights,
+                only_open: onlyOpen,
+                use_hybrid_search: useHybridSearch
             })
         });
 
