@@ -451,89 +451,102 @@ function displayScores(data) {
         const card = document.createElement('div');
         card.className = 'score-card';
 
-        // Title and Summary
+        // Record header
+        const header = document.createElement('div');
+        header.className = 'score-card-header';
+
         const title = document.createElement('h4');
         title.textContent = result.title || 'Untitled';
-        card.appendChild(title);
+        header.appendChild(title);
 
-        const summary = document.createElement('p');
-        summary.textContent = result.summary || '';
-        card.appendChild(summary);
-
-        // Score Metrics
-        if (result.scores) {
-            const metricsContainer = document.createElement('div');
-            metricsContainer.className = 'score-metrics';
-
-            const metrics = [
-                { label: 'Total', value: result.scores.total },
-                { label: 'Market', value: result.scores.market },
-                { label: 'Competitive', value: result.scores.competitive },
-                { label: 'Funding', value: result.scores.funding }
-            ];
-
-            metrics.forEach(metric => {
-                const metricDiv = document.createElement('div');
-                metricDiv.className = 'score-metric';
-
-                const label = document.createElement('span');
-                label.className = 'score-label';
-                label.textContent = metric.label;
-
-                const value = document.createElement('span');
-                value.className = 'score-value';
-                value.textContent = metric.value ? metric.value.toFixed(2) : 'N/A';
-
-                const bar = document.createElement('div');
-                bar.className = 'score-bar';
-
-                const fill = document.createElement('div');
-                fill.className = 'score-bar-fill';
-                fill.style.width = `${(metric.value || 0) * 100}%`;
-
-                bar.appendChild(fill);
-                metricDiv.appendChild(label);
-                metricDiv.appendChild(value);
-                metricDiv.appendChild(bar);
-                metricsContainer.appendChild(metricDiv);
-            });
-
-            card.appendChild(metricsContainer);
+        if (result.summary) {
+            const summary = document.createElement('p');
+            summary.className = 'score-card-summary';
+            summary.textContent = result.summary;
+            header.appendChild(summary);
         }
 
-        // References
-        if (result.references && result.references.length > 0) {
-            const refsSection = document.createElement('div');
-            refsSection.className = 'references-section';
+        card.appendChild(header);
 
-            const refsTitle = document.createElement('h5');
-            refsTitle.textContent = 'References:';
-            refsSection.appendChild(refsTitle);
+        // References table
+        if (result.references && result.references.length > 0) {
+            const tableWrap = document.createElement('div');
+            tableWrap.className = 'refs-table-wrap';
+
+            const table = document.createElement('table');
+            table.className = 'refs-table';
+
+            // Header row
+            const thead = document.createElement('thead');
+            thead.innerHTML = `
+                <tr>
+                    <th class="col-score">Score</th>
+                    <th class="col-title">Title</th>
+                    <th class="col-status">Status</th>
+                    <th class="col-value">Value</th>
+                    <th class="col-date">Closing Date</th>
+                </tr>`;
+            table.appendChild(thead);
+
+            const tbody = document.createElement('tbody');
 
             result.references.forEach(ref => {
-                const refItem = document.createElement('div');
-                refItem.className = 'reference-item';
+                const tr = document.createElement('tr');
 
-                const refTitle = document.createElement('h6');
-                refTitle.textContent = ref.title || 'Untitled Reference';
+                // Score
+                const scoreVal = ref.score != null ? ref.score.toFixed(3) : '—';
+                const scoreTd = document.createElement('td');
+                scoreTd.className = 'col-score';
+                scoreTd.innerHTML = `<span class="ref-score-badge">${scoreVal}</span>`;
 
-                const refSummary = document.createElement('p');
-                refSummary.textContent = ref.summary?.summary || '';
+                // Title
+                const titleTd = document.createElement('td');
+                titleTd.className = 'col-title';
+                titleTd.textContent = ref.title || '—';
 
-                const refScore = document.createElement('p');
-                refScore.innerHTML = `Score: <span class="reference-score">${ref.score ? ref.score.toFixed(3) : 'N/A'}</span>`;
+                // Status
+                const statusTd = document.createElement('td');
+                statusTd.className = 'col-status';
+                if (ref.status) {
+                    const badge = document.createElement('span');
+                    badge.className = `status-badge status-${(ref.status || '').toLowerCase().replace(/\s+/g, '-')}`;
+                    badge.textContent = ref.status;
+                    statusTd.appendChild(badge);
+                } else {
+                    statusTd.textContent = '—';
+                }
 
-                const refSource = document.createElement('p');
-                refSource.innerHTML = `Source: <em>${ref.source_name || 'Unknown'}</em>`;
+                // Value + currency
+                const valueTd = document.createElement('td');
+                valueTd.className = 'col-value';
+                if (ref.value != null && ref.value !== '') {
+                    const currency = ref.currency ? ref.currency + '\u00a0' : '';
+                    valueTd.textContent = currency + Number(ref.value).toLocaleString();
+                } else {
+                    valueTd.textContent = '—';
+                }
 
-                refItem.appendChild(refTitle);
-                refItem.appendChild(refSummary);
-                refItem.appendChild(refScore);
-                refItem.appendChild(refSource);
-                refsSection.appendChild(refItem);
+                // Closing date
+                const dateTd = document.createElement('td');
+                dateTd.className = 'col-date';
+                dateTd.textContent = ref.closing_date || '—';
+
+                tr.appendChild(scoreTd);
+                tr.appendChild(titleTd);
+                tr.appendChild(statusTd);
+                tr.appendChild(valueTd);
+                tr.appendChild(dateTd);
+                tbody.appendChild(tr);
             });
 
-            card.appendChild(refsSection);
+            table.appendChild(tbody);
+            tableWrap.appendChild(table);
+            card.appendChild(tableWrap);
+        } else {
+            const noRefs = document.createElement('p');
+            noRefs.className = 'no-refs';
+            noRefs.textContent = 'No references found.';
+            card.appendChild(noRefs);
         }
 
         container.appendChild(card);
