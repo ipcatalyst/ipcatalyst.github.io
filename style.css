@@ -437,6 +437,12 @@ code {
     white-space: nowrap;
 }
 
+.refs-table .col-summary {
+    min-width: 16rem;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
 /* Score badge */
 .ref-score-badge {
     display: inline-block;

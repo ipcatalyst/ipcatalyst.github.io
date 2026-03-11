@@ -230,6 +230,7 @@ async function analyzePortfolio() {
         : null;
     const onlyOpen = document.getElementById('analysis-only-open').checked;
     const useHybridSearch = document.getElementById('analysis-hybrid-search').checked;
+    const summarize = document.getElementById('analysis-summarize').checked;
 
     showLoading();
     try {
@@ -242,7 +243,8 @@ async function analyzePortfolio() {
                 top_k: topK,
                 weights: weights,
                 only_open: onlyOpen,
-                use_hybrid_search: useHybridSearch
+                use_hybrid_search: useHybridSearch,
+                summarize: summarize
             })
         });
 
@@ -485,6 +487,7 @@ function displayScores(data) {
                     <th class="col-status">Status</th>
                     <th class="col-value">Value</th>
                     <th class="col-date">Closing Date</th>
+                    <th class="col-summary">Summary</th>
                 </tr>`;
             table.appendChild(thead);
 
@@ -531,11 +534,17 @@ function displayScores(data) {
                 dateTd.className = 'col-date';
                 dateTd.textContent = ref.closing_date || '—';
 
+                // Summary
+                const summaryTd = document.createElement('td');
+                summaryTd.className = 'col-summary';
+                summaryTd.textContent = ref.summary?.summary || '—';
+
                 tr.appendChild(scoreTd);
                 tr.appendChild(titleTd);
                 tr.appendChild(statusTd);
                 tr.appendChild(valueTd);
                 tr.appendChild(dateTd);
+                tr.appendChild(summaryTd);
                 tbody.appendChild(tr);
             });
 
