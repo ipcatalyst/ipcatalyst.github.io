@@ -94,7 +94,7 @@ body {
 
 .main-content {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 0.5fr 1fr 1fr;
     gap: var(--spacing-md);
     align-items: start;
 }
@@ -437,10 +437,44 @@ code {
     white-space: nowrap;
 }
 
-.refs-table .col-summary {
-    min-width: 16rem;
+.ref-title-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+}
+
+.expand-btn {
+    flex-shrink: 0;
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    border-radius: 3px;
+    width: 1.1rem;
+    height: 1.1rem;
+    font-size: 0.75rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.expand-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+}
+
+.ref-summary {
+    display: none;
+    margin-top: 0.4rem;
     font-size: var(--font-size-sm);
     color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.ref-summary.visible {
+    display: block;
 }
 
 /* Score badge */
@@ -703,7 +737,7 @@ code {
 
 @media (max-width: 1400px) {
     .main-content {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 0.5fr 1fr;
     }
 
     .right-panel {

@@ -487,7 +487,6 @@ function displayScores(data) {
                     <th class="col-status">Status</th>
                     <th class="col-value">Value</th>
                     <th class="col-date">Closing Date</th>
-                    <th class="col-summary">Summary</th>
                 </tr>`;
             table.appendChild(thead);
 
@@ -502,10 +501,32 @@ function displayScores(data) {
                 scoreTd.className = 'col-score';
                 scoreTd.innerHTML = `<span class="ref-score-badge">${scoreVal}</span>`;
 
-                // Title
+                // Title with expandable summary
                 const titleTd = document.createElement('td');
                 titleTd.className = 'col-title';
-                titleTd.textContent = ref.title || '—';
+                const summaryText = ref.summary?.summary || '';
+                const titleWrap = document.createElement('div');
+                titleWrap.className = 'ref-title-wrap';
+                const titleStrong = document.createElement('strong');
+                titleStrong.textContent = ref.title || '—';
+                titleWrap.appendChild(titleStrong);
+                if (summaryText) {
+                    const expandBtn = document.createElement('button');
+                    expandBtn.className = 'expand-btn';
+                    expandBtn.textContent = '+';
+                    const summaryDiv = document.createElement('div');
+                    summaryDiv.className = 'ref-summary';
+                    summaryDiv.textContent = summaryText;
+                    expandBtn.addEventListener('click', () => {
+                        const expanded = summaryDiv.classList.toggle('visible');
+                        expandBtn.textContent = expanded ? '−' : '+';
+                    });
+                    titleWrap.appendChild(expandBtn);
+                    titleTd.appendChild(titleWrap);
+                    titleTd.appendChild(summaryDiv);
+                } else {
+                    titleTd.appendChild(titleWrap);
+                }
 
                 // Status
                 const statusTd = document.createElement('td');
@@ -534,17 +555,11 @@ function displayScores(data) {
                 dateTd.className = 'col-date';
                 dateTd.textContent = ref.closing_date || '—';
 
-                // Summary
-                const summaryTd = document.createElement('td');
-                summaryTd.className = 'col-summary';
-                summaryTd.textContent = ref.summary?.summary || '—';
-
                 tr.appendChild(scoreTd);
                 tr.appendChild(titleTd);
                 tr.appendChild(statusTd);
                 tr.appendChild(valueTd);
                 tr.appendChild(dateTd);
-                tr.appendChild(summaryTd);
                 tbody.appendChild(tr);
             });
 
