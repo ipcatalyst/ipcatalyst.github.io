@@ -94,7 +94,7 @@ body {
 
 .main-content {
     display: grid;
-    grid-template-columns: 0.5fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: var(--spacing-md);
     align-items: start;
 }
@@ -737,7 +737,7 @@ code {
 
 @media (max-width: 1400px) {
     .main-content {
-        grid-template-columns: 0.5fr 1fr;
+        grid-template-columns: 1fr 1fr;
     }
 
     .right-panel {
